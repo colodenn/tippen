@@ -1,6 +1,6 @@
 use crate::utils;
-struct Theme {
-    name: String,
+pub struct Theme {
+    pub name: String,
 }
 
 pub fn load_theme(theme_name: String) {

@@ -1,20 +1,14 @@
 // ./src-tauri/src/keyboard_listener.rs
+use crate::config;
 use rdev::{listen, Event, EventType, Key};
 use rodio::OutputStream;
 use std::io::BufReader;
+
 fn play_click_sound(file: &str) {
-    // Get a output stream handle to the default physical sound device
     let (_stream, stream_handle) = OutputStream::try_default().unwrap();
-    // // Load a sound from a file, using a path relative to Cargo.toml
-    // let file = BufReader::new(File::open(file).unwrap());
-    // // Decode that sound file into a source
-    // let source = Decoder::new(file).unwrap();
-    // Play the sound directly on the device
     let file_cache = std::fs::File::open(file).unwrap();
     let sound = stream_handle.play_once(BufReader::new(file_cache)).unwrap();
     sound.set_volume(0.5);
-    // The sound plays in a separate audio thread,
-    // so we need to keep the main thread alive while it's playing.
     std::thread::sleep(std::time::Duration::from_millis(150));
 }
 
@@ -28,6 +22,8 @@ where
 
 fn callback<F: Fn(&str, &str)>(event: Event, emit: &F, released: &mut bool) {
     let mut file = "sounds/key2.wav";
+    let _config = config::read_config();
+    // let theme_config = config::read_config_theme(config.theme);
     match event.name {
         Some(string) => {
             match event.event_type {

@@ -1,5 +1,5 @@
 use directories::UserDirs;
-use std::fs;
+use std::{fs, path::Path};
 
 pub fn create_dir_if_not_exists() {
     println!("Creating sound theme directory...");
@@ -11,9 +11,13 @@ pub fn create_dir_if_not_exists() {
 pub fn get_thocky_dir() -> std::path::PathBuf {
     if let Some(user_dirs) = UserDirs::new() {
         let dir = user_dirs.home_dir().join(".thocky");
-        println!("User directories: {:?}", dir);
         return dir;
     } else {
         panic!("Couldn't find home directory.");
     };
+}
+
+pub fn check_if_file_exists(path: &str) -> bool {
+    let file = std::path::Path::new(path);
+    return file.exists();
 }
