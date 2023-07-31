@@ -4,7 +4,8 @@ use tauri::{CustomMenuItem, SystemTrayMenuItem, SystemTraySubmenu};
 use tauri::{Manager, SystemTray, SystemTrayEvent, SystemTrayMenu};
 mod keyboard_listener;
 use std::thread;
-
+mod theme;
+mod utils;
 #[derive(Clone, serde::Serialize)]
 struct Payload {
     mode: String,
@@ -12,6 +13,7 @@ struct Payload {
 }
 
 fn main() {
+    println!("Hello, world!");
     // here `"quit".to_string()` defines the menu item id, and the second parameter is the menu item label.
     let enable = CustomMenuItem::new("enable".to_string(), "Disable").accelerator("Cmd+E");
     let quit = CustomMenuItem::new("quit".to_string(), "Quit").accelerator("Cmd+Q");
@@ -57,6 +59,9 @@ fn main() {
             _ => {}
         })
         .setup(move |app| {
+            print!("Setting up...");
+            utils::create_dir_if_not_exists();
+            theme::get_themes();
             let wv = app.get_window("main").unwrap();
 
             thread::spawn(move || {
