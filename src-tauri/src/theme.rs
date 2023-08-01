@@ -1,6 +1,25 @@
 use crate::utils;
+use serde::{Deserialize, Serialize};
+use serde_json::Value;
+
+use std::collections::HashMap;
+
+#[derive(Serialize, Deserialize)]
 pub struct Theme {
+    #[serde(rename = "id")]
+    pub id: String,
+
+    #[serde(rename = "name")]
     pub name: String,
+
+    #[serde(rename = "author")]
+    pub author: String,
+
+    #[serde(rename = "sound")]
+    pub sound: String,
+
+    #[serde(rename = "keys")]
+    pub keys: HashMap<String, String>,
 }
 
 pub fn load_theme(theme_name: String) {

@@ -66,7 +66,9 @@ fn main() {
                 "quit" => {
                     std::process::exit(0);
                 }
-                _ => {}
+                _ => {
+                    println!("Clicked on menu item {}", id);
+                }
             },
             _ => {}
         })
@@ -99,6 +101,7 @@ fn main() {
                     }
                 })
             });
+
             Ok(())
         })
         .run(tauri::generate_context!())
